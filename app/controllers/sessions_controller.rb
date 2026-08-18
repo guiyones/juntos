@@ -14,6 +14,11 @@ class SessionsController < ApplicationController
     redirect_to new_verification_path
   rescue ActiveRecord::RecordInvalid
     redirect_to new_session_path, alert: "Esse email não parece válido."
+  rescue ActiveRecord::RecordNotUnique
+    # Duas requisições concorrentes criando o mesmo email: a perdedora bate no índice
+    # único do banco. Tenta de novo — dessa vez find_or_create_by! encontra o registro
+    # que a outra requisição acabou de criar.
+    retry
   end
 
   def destroy
