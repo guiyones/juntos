@@ -3,6 +3,8 @@ class ChallengesController < ApplicationController
 
   def index
     @active, @finished = my_challenges.partition { |challenge| !challenge.finished? }
+    @greeting_name = my_latest_name
+    @pending_today = @active.count { |challenge| challenge.running? && !current_participant_for(challenge)&.checked_in_on?(challenge.today) }
   end
 
   def new
@@ -42,5 +44,11 @@ class ChallengesController < ApplicationController
 
     def my_challenges
       Challenge.involving(person_token: cookies.signed[:person_token], user: current_user).latest_first
+    end
+
+    def my_latest_name
+      matches = Participant.where(person_token: cookies.signed[:person_token])
+      matches = matches.or(Participant.where(user: current_user)) if signed_in?
+      matches.order(:created_at).last&.name
     end
 end

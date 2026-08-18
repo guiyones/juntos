@@ -3,7 +3,7 @@ module Authentication
 
   included do
     before_action :resume_session
-    helper_method :current_user, :signed_in?
+    helper_method :current_user, :signed_in?, :current_participant_for
   end
 
   private

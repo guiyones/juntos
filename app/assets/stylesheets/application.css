@@ -28,13 +28,13 @@ body {
 }
 
 h1 {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-weight: 400;
-  font-size: 2.1rem;
-  line-height: 1.1;
+  font-weight: 900;
+  font-size: 1.7rem;
+  line-height: 1.15;
   margin: 0.25rem 0;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.02em;
 }
+.wordmark { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; margin: 0; }
 h2 {
   font-size: 0.8rem;
   font-weight: 800;
@@ -127,7 +127,7 @@ form input[type="submit"] { margin-top: 1.5rem; }
   background: var(--bg);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.ring__day { font-family: "Instrument Serif", Georgia, serif; font-size: 1.9rem; line-height: 1; }
+.ring__day { font-size: 1.7rem; font-weight: 800; line-height: 1; }
 .ring__total { font-size: 0.7rem; font-weight: 800; color: var(--muted); }
 
 /* ---------- lista HOJE ---------- */
@@ -195,16 +195,71 @@ form input[type="submit"] { margin-top: 1.5rem; }
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
   text-decoration: none; color: var(--ink);
 }
-.challenge-card strong {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-weight: 400; font-size: 1.35rem; letter-spacing: 0.01em;
+.challenge-card a {
+  display: flex; flex-direction: column; gap: 0.7rem;
 }
-.challenge-card span { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 0.15rem; }
+.challenge-card strong { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
+.challenge-card .card-top { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; }
+.challenge-card .meta { display: flex; align-items: center; gap: 0.7rem; }
+.challenge-card .meta span { color: var(--muted); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
 .challenge-card .bar {
-  height: 6px; margin-top: 0.6rem; border-radius: 3px; background: var(--track); overflow: hidden;
+  flex-grow: 1; height: 7px; border-radius: 4px; background: var(--track); overflow: hidden;
 }
-.challenge-card .bar i { display: block; height: 6px; border-radius: 3px; background: var(--olive); }
+.challenge-card .bar i { display: block; height: 7px; border-radius: 4px; background: var(--olive); }
 .challenge-card.is-finished a { opacity: 0.55; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.3rem 0.75rem; border-radius: 14px;
+  font-size: 0.75rem; font-weight: 800; white-space: nowrap;
+}
+.badge--done { background: var(--olive-soft); color: var(--olive-deep); }
+.badge--todo { background: var(--terracotta-soft); color: var(--terracotta); }
+.badge--muted { background: var(--track); color: var(--muted); }
+
+.people { display: flex; align-items: center; gap: 0.5rem; }
+.people .faces { display: flex; }
+.people .face {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800;
+  background: var(--track); color: var(--muted);
+  border: 2px solid var(--card);
+}
+.people .face + .face { margin-left: -7px; }
+.people .face.is-done { background: var(--olive-soft); color: var(--olive-deep); border-color: var(--olive); }
+.people > span { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+
+.greeting { margin: 0.5rem 0 1rem; }
+.greeting h1 { margin: 0 0 0.15rem; }
+.greeting p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+.avatar-chip {
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--olive-soft); color: var(--olive-deep);
+  font-weight: 800; font-size: 1rem;
+}
+
+.fab {
+  position: fixed; right: 1.25rem; bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--ink); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; font-weight: 600; line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(46, 42, 36, 0.3);
+}
+@media (min-width: 640px) {
+  .fab { right: calc(50% - 13rem + 1.25rem); }
+}
+
+details.finished > summary {
+  list-style: none; cursor: pointer; text-align: center;
+  font-size: 0.85rem; font-weight: 700; color: var(--muted);
+  text-decoration: underline; margin: 1rem 0;
+}
+details.finished > summary::-webkit-details-marker { display: none; }
 
 /* ---------- convite ---------- */
 .invite { margin-top: 2rem; }
@@ -218,8 +273,7 @@ form input[type="submit"] { margin-top: 1.5rem; }
 /* ---------- páginas de formulário ---------- */
 .empty { text-align: center; padding: 2.5rem 0; }
 .empty h2 {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 1.8rem; font-weight: 400; text-transform: none; letter-spacing: 0.01em;
+  font-size: 1.5rem; font-weight: 900; text-transform: none; letter-spacing: -0.02em;
   color: var(--ink); line-height: 1.2;
 }
 .empty .button { margin-top: 1.25rem; }

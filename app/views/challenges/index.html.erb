@@ -1,5 +1,5 @@
 <header class="topbar">
-  <h1>Juntos</h1>
+  <h1 class="wordmark">juntos</h1>
   <nav>
     <% if signed_in? %>
       <%= button_to "Sair", session_path, method: :delete, class: "link" %>
@@ -14,14 +14,25 @@
     <%= link_to "Criar um desafio", new_challenge_path, class: "button" %>
   </section>
 <% else %>
-  <section>
-    <ul class="challenges"><%= render @active %></ul>
-
-    <% if @finished.any? %>
-      <h2 class="muted">Encerrados</h2>
-      <ul class="challenges"><%= render @finished %></ul>
+  <section class="greeting">
+    <h1><%= greeting %><%= ", #{@greeting_name}" if @greeting_name %></h1>
+    <% if @pending_today == 0 && @active.any?(&:running?) %>
+      <p>Tudo marcado por hoje. ✓</p>
+    <% elsif @pending_today == 1 %>
+      <p>Falta 1 check-in hoje.</p>
+    <% elsif @pending_today > 1 %>
+      <p>Faltam <%= @pending_today %> check-ins hoje.</p>
     <% end %>
-
-    <%= link_to "Criar outro desafio", new_challenge_path, class: "button button--secondary" %>
   </section>
+
+  <ul class="challenges"><%= render @active %></ul>
+
+  <% if @finished.any? %>
+    <details class="finished">
+      <summary>ver encerrados (<%= @finished.size %>)</summary>
+      <ul class="challenges"><%= render @finished %></ul>
+    </details>
+  <% end %>
+
+  <%= link_to "+", new_challenge_path, class: "fab", title: "Novo desafio", "aria-label": "Novo desafio" %>
 <% end %>

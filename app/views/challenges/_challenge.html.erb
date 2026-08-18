@@ -1,18 +1,44 @@
 <%# locals: (challenge:) %>
 <li class="challenge-card <%= "is-finished" if challenge.finished? %>">
   <%= link_to challenge do %>
-    <strong><%= challenge.name %></strong>
-    <span>
+    <% me = current_participant_for(challenge) %>
+    <div class="card-top">
+      <strong><%= challenge.name %></strong>
       <% if challenge.upcoming? %>
-        <%= challenge.days %> dias · começa <%= challenge.starts_on.strftime("%d/%m") %>
+        <span class="badge badge--muted">começa <%= challenge.starts_on.strftime("%d/%m") %></span>
       <% elsif challenge.finished? %>
-        encerrado · <%= challenge.days %> dias
+        <span class="badge badge--muted">encerrado</span>
+      <% elsif me&.checked_in_on?(challenge.today) %>
+        <span class="badge badge--done">✓ feito hoje</span>
       <% else %>
-        dia <%= challenge.current_day %> de <%= challenge.days %>
+        <span class="badge badge--todo">falta você</span>
       <% end %>
-    </span>
+    </div>
+
     <% unless challenge.finished? %>
-      <span class="bar"><i style="width: <%= (challenge.current_day * 100.0 / challenge.days).round %>%"></i></span>
+      <div class="meta">
+        <span class="bar"><i style="width: <%= (challenge.current_day * 100.0 / challenge.days).round %>%"></i></span>
+        <span>
+          <% if challenge.upcoming? %>
+            <%= challenge.days %> dias
+          <% else %>
+            dia <%= challenge.current_day %> de <%= challenge.days %>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+
+    <% if challenge.running? %>
+      <% participants = challenge.participants.ordered.includes(:checkins) %>
+      <% done = participants.count { |participant| participant.checked_in_on?(challenge.today) } %>
+      <div class="people">
+        <div class="faces">
+          <% participants.first(5).each do |participant| %>
+            <span class="face <%= "is-done" if participant.checked_in_on?(challenge.today) %>"><%= participant.name.first.upcase %></span>
+          <% end %>
+        </div>
+        <span><%= done %> de <%= participants.length %> <%= done == 1 ? "fez" : "fizeram" %> hoje</span>
+      </div>
     <% end %>
   <% end %>
 </li>
