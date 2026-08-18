@@ -1,0 +1,20 @@
+<section class="join">
+  <h1><%= @challenge.name %></h1>
+  <p class="muted"><%= @challenge.days %> dias · começa <%= @challenge.starts_on.strftime("%d/%m") %></p>
+
+  <% participants = @challenge.participants.ordered %>
+  <% if participants.any? %>
+    <p>Já estão dentro:</p>
+    <ul class="today">
+      <% participants.each do |participant| %>
+        <li><span class="dot"></span> <%= participant.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= form_with url: join_path(@challenge.token) do |form| %>
+    <%= form.label :name, "Como você quer ser chamado?" %>
+    <%= form.text_field :name, placeholder: "Seu nome", required: true, autofocus: true %>
+    <%= form.submit "Entrar no desafio" %>
+  <% end %>
+</section>
