@@ -1,1 +1,27 @@
-<h1>Juntos</h1>
+<section class="form-page">
+  <h1>Novo desafio</h1>
+
+  <%= form_with model: @challenge do |form| %>
+    <% if @challenge.errors.any? %>
+      <ul class="errors">
+        <% @challenge.errors.each do |error| %>
+          <li><%= error.message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <%= form.label :name, "O desafio" %>
+    <%= form.text_field :name, placeholder: "Dormir antes das 23h", required: true, autofocus: true %>
+
+    <%= form.label :days, "Quantos dias" %>
+    <%= form.number_field :days, min: 1, required: true %>
+
+    <%= form.label :starts_on, "Começa em" %>
+    <%= form.date_field :starts_on, required: true %>
+
+    <%= label_tag :participant_name, "Seu nome no desafio" %>
+    <%= text_field_tag :participant_name, nil, placeholder: "Gui", required: true %>
+
+    <%= form.submit "Criar e pegar o link" %>
+  <% end %>
+</section>

@@ -1,0 +1,15 @@
+<%# locals: (challenge:) %>
+<li class="challenge-card <%= "is-finished" if challenge.finished? %>">
+  <%= link_to challenge do %>
+    <strong><%= challenge.name %></strong>
+    <span>
+      <% if challenge.upcoming? %>
+        começa <%= challenge.starts_on.strftime("%d/%m") %>
+      <% elsif challenge.finished? %>
+        encerrado · <%= challenge.days %> dias
+      <% else %>
+        dia <%= challenge.current_day %> de <%= challenge.days %>
+      <% end %>
+    </span>
+  <% end %>
+</li>

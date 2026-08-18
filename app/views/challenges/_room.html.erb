@@ -1,0 +1,48 @@
+<%# locals: (challenge:) %>
+<div id="room">
+  <% participants = challenge.participants.ordered.includes(:checkins) %>
+
+  <% if challenge.upcoming? %>
+    <p class="upcoming">Começa em <%= challenge.starts_on.strftime("%d/%m") %>. Já tem <%= participants.size %> <%= "pessoa".pluralize(participants.size) %> dentro.</p>
+    <ul class="today">
+      <% participants.each do |participant| %>
+        <li><span class="dot"></span> <%= participant.name %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <section>
+      <h2>Hoje</h2>
+      <ul class="today">
+        <% participants.each do |participant| %>
+          <li class="<%= "is-done" if participant.checked_in_on?(challenge.today) %>">
+            <span class="dot"></span> <%= participant.name %>
+            <span class="mark"><%= participant.checked_in_on?(challenge.today) ? "✓" : "—" %></span>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+
+    <section class="grid-wrap">
+      <table class="grid">
+        <thead>
+          <tr>
+            <th></th>
+            <% (1..challenge.current_day).each do |day| %>
+              <th><%= day %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% participants.each do |participant| %>
+            <tr>
+              <th><%= participant.name %></th>
+              <% (1..challenge.current_day).each do |day| %>
+                <td class="<%= participant.checked_in_on?(challenge.date_for(day)) ? "done" : "missed" %>"></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  <% end %>
+</div>

@@ -1,1 +1,27 @@
-<h1>Juntos</h1>
+<header class="topbar">
+  <h1>Juntos</h1>
+  <nav>
+    <% if signed_in? %>
+      <%= button_to "Sair", session_path, method: :delete, class: "link" %>
+    <% end %>
+  </nav>
+</header>
+
+<% if @active.none? && @finished.none? %>
+  <section class="empty">
+    <h2>Desafios são melhores em companhia.</h2>
+    <p>Crie um desafio — dormir cedo por 21 dias, uma novena de 40 dias, o que for — e mande o link pra quem vai encarar com você. Cada um marca o seu dia; todo mundo vê que ninguém está sozinho.</p>
+    <%= link_to "Criar um desafio", new_challenge_path, class: "button" %>
+  </section>
+<% else %>
+  <section>
+    <ul class="challenges"><%= render @active %></ul>
+
+    <% if @finished.any? %>
+      <h2 class="muted">Encerrados</h2>
+      <ul class="challenges"><%= render @finished %></ul>
+    <% end %>
+
+    <%= link_to "Criar outro desafio", new_challenge_path, class: "button button--secondary" %>
+  </section>
+<% end %>

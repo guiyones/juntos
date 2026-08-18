@@ -1,0 +1,37 @@
+<%= turbo_stream_from @challenge %>
+
+<header class="topbar">
+  <%= link_to "‹ salas", root_path %>
+  <h1><%= @challenge.name %></h1>
+  <p class="muted">
+    <% if @challenge.upcoming? %>
+      <%= @challenge.days %> dias, a partir de <%= @challenge.starts_on.strftime("%d/%m") %>
+    <% elsif @challenge.finished? %>
+      encerrado — <%= @challenge.days %> dias
+    <% else %>
+      dia <%= @challenge.current_day %> de <%= @challenge.days %>
+    <% end %>
+  </p>
+</header>
+
+<%= render "room", challenge: @challenge %>
+
+<% if @challenge.running? %>
+  <footer class="checkin-bar">
+    <% if todays = @participant.checkin_for(@challenge.today) %>
+      <%= button_to "Feito hoje ✓ · desfazer", checkin_path(todays), method: :delete, class: "button button--done" %>
+    <% else %>
+      <%= button_to "Fiz hoje ✓", checkins_path, params: { challenge_id: @challenge.id }, class: "button" %>
+    <% end %>
+
+    <% if @challenge.today > @challenge.starts_on && @participant.checkin_for(@challenge.today - 1).nil? %>
+      <%= button_to "esqueci ontem — marcar", checkins_path, params: { challenge_id: @challenge.id, date: "yesterday" }, class: "link" %>
+    <% end %>
+  </footer>
+<% end %>
+
+<section class="invite">
+  <h2>Chama mais gente</h2>
+  <p>Manda esse link pra quem vai encarar junto:</p>
+  <p><code><%= join_url(@challenge.token) %></code></p>
+</section>
