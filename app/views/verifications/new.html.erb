@@ -1,0 +1,15 @@
+<section class="auth">
+  <h1>Confere seu email</h1>
+  <p>Mandamos um código de 6 dígitos pra <strong><%= session[:pending_email] %></strong>.</p>
+
+  <% if flash[:dev_code] %>
+    <p class="dev-code">[dev] código: <%= flash[:dev_code] %></p>
+  <% end %>
+
+  <%= form_with url: verification_path do |form| %>
+    <%= form.text_field :code, placeholder: "000000", inputmode: :numeric, maxlength: 6, required: true, autofocus: true, autocomplete: "one-time-code" %>
+    <%= form.submit "Entrar" %>
+  <% end %>
+
+  <p><%= link_to "Usar outro email", new_session_path %></p>
+</section>

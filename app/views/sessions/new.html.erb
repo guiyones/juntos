@@ -1,0 +1,9 @@
+<section class="auth">
+  <h1>Entrar</h1>
+  <p>Pra criar um desafio você precisa de uma conta. Sem senha: a gente manda um código pro seu email.</p>
+
+  <%= form_with url: session_path do |form| %>
+    <%= form.email_field :email, placeholder: "seu@email.com", required: true, autofocus: true %>
+    <%= form.submit "Me manda o código" %>
+  <% end %>
+</section>
