@@ -34,6 +34,20 @@ class ChallengeTest < ActiveSupport::TestCase
     end
   end
 
+  test "grace_day? só no primeiro dia depois do fim" do
+    travel_to challenges(:sleep).ends_on do
+      assert_not challenges(:sleep).grace_day?
+    end
+
+    travel_to challenges(:sleep).ends_on + 1.day do
+      assert challenges(:sleep).grace_day?
+    end
+
+    travel_to challenges(:sleep).ends_on + 2.days do
+      assert_not challenges(:sleep).grace_day?
+    end
+  end
+
   test "date_for converte dia em data" do
     assert_equal challenges(:sleep).starts_on, challenges(:sleep).date_for(1)
     assert_equal challenges(:sleep).starts_on + 7, challenges(:sleep).date_for(8)

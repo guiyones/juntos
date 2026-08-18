@@ -28,9 +28,23 @@ class ChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "quem não é participante cai na página de entrada" do
+  test "nome de participante em branco não cria sala órfã" do
+    sign_in_as users(:gui)
+
+    assert_no_difference [ -> { Challenge.count }, -> { Participant.count } ] do
+      post challenges_path, params: {
+        participant_name: "   ",
+        challenge: { name: "Ler todo dia", starts_on: Date.tomorrow, days: 30 }
+      }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "quem não é participante não vê a sala nem o link" do
     get challenge_path(challenges(:sleep))
-    assert_redirected_to join_path(challenges(:sleep).token)
+    assert_redirected_to root_path
+    assert_not_includes response.headers["Location"], challenges(:sleep).token
   end
 
   test "criador logado em outro aparelho entra na própria sala" do

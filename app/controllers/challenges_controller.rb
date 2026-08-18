@@ -10,21 +10,29 @@ class ChallengesController < ApplicationController
   end
 
   def create
+    participant_name = params[:participant_name].to_s.strip
     @challenge = current_user.challenges.new(challenge_params)
 
-    if @challenge.save
-      @challenge.join name: params.expect(:participant_name), person_token: person_token, user: current_user
-      redirect_to @challenge
-    else
-      render :new, status: :unprocessable_entity
+    if participant_name.blank?
+      @challenge.errors.add(:base, "conta pra gente como você quer ser chamado")
+      return render :new, status: :unprocessable_entity
     end
+
+    Challenge.transaction do
+      @challenge.save!
+      @challenge.join name: participant_name, person_token: person_token, user: current_user
+    end
+
+    redirect_to @challenge
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   def show
     @challenge = Challenge.find(params[:id])
     @participant = current_participant_for(@challenge)
 
-    redirect_to join_path(@challenge.token) if @participant.nil?
+    redirect_to root_path if @participant.nil?
   end
 
   private

@@ -20,7 +20,7 @@
     <%= form.date_field :starts_on, required: true %>
 
     <%= label_tag :participant_name, "Seu nome no desafio" %>
-    <%= text_field_tag :participant_name, nil, placeholder: "Gui", required: true %>
+    <%= text_field_tag :participant_name, params[:participant_name], placeholder: "Gui", required: true %>
 
     <%= form.submit "Criar e pegar o link" %>
   <% end %>

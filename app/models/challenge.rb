@@ -18,6 +18,7 @@ class Challenge < ApplicationRecord
   def upcoming? = today < starts_on
   def finished? = today > ends_on
   def running? = !upcoming? && !finished?
+  def grace_day? = today == ends_on + 1
   def date_for(day) = starts_on + day - 1
 
   def current_day

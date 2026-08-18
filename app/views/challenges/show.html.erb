@@ -16,12 +16,14 @@
 
 <%= render "room", challenge: @challenge %>
 
-<% if @challenge.running? %>
+<% if @challenge.running? || @challenge.grace_day? %>
   <footer class="checkin-bar">
-    <% if todays = @participant.checkin_for(@challenge.today) %>
-      <%= button_to "Feito hoje ✓ · desfazer", checkin_path(todays), method: :delete, class: "button button--done" %>
-    <% else %>
-      <%= button_to "Fiz hoje ✓", checkins_path, params: { challenge_id: @challenge.id }, class: "button" %>
+    <% if @challenge.running? %>
+      <% if todays = @participant.checkin_for(@challenge.today) %>
+        <%= button_to "Feito hoje ✓ · desfazer", checkin_path(todays), method: :delete, class: "button button--done" %>
+      <% else %>
+        <%= button_to "Fiz hoje ✓", checkins_path, params: { challenge_id: @challenge.id }, class: "button" %>
+      <% end %>
     <% end %>
 
     <% if @challenge.today > @challenge.starts_on && @participant.checkin_for(@challenge.today - 1).nil? %>
