@@ -38,4 +38,19 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal challenges(:sleep).starts_on, challenges(:sleep).date_for(1)
     assert_equal challenges(:sleep).starts_on + 7, challenges(:sleep).date_for(8)
   end
+
+  test "join cria participante" do
+    participant = challenges(:novena).join(name: "Bia", person_token: "bia-device")
+
+    assert_equal "Bia", participant.name
+    assert_nil participant.user
+  end
+
+  test "involving acha salas pelo cookie e pelo user" do
+    challenges = Challenge.involving(person_token: "ana-device", user: users(:ana))
+    assert_equal [ challenges(:novena), challenges(:sleep) ].sort, challenges.sort
+
+    only_cookie = Challenge.involving(person_token: "gui-device")
+    assert_equal [ challenges(:sleep) ], only_cookie.to_a
+  end
 end

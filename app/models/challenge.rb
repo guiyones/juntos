@@ -25,6 +25,16 @@ class Challenge < ApplicationRecord
     [ (today - starts_on).to_i + 1, days ].min
   end
 
+  def self.involving(person_token:, user: nil)
+    matches = Participant.where(person_token: person_token)
+    matches = matches.or(Participant.where(user: user)) if user
+    where(id: matches.select(:challenge_id))
+  end
+
+  def join(name:, person_token:, user: nil)
+    participants.create!(name: name, person_token: person_token, user: user)
+  end
+
   private
     def generate_token
       self.token ||= loop do

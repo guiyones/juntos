@@ -1,0 +1,16 @@
+gui_sleep:
+  challenge: sleep
+  user: gui
+  name: Gui
+  person_token: gui-device
+
+ana_sleep:
+  challenge: sleep
+  name: Ana
+  person_token: ana-device
+
+ana_novena:
+  challenge: novena
+  user: ana
+  name: Ana
+  person_token: ana-device

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_18_160908) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_18_161524) do
   create_table "challenges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "days", null: false
@@ -33,6 +33,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_160908) do
     t.index ["user_id"], name: "index_magic_links_on_user_id"
   end
 
+  create_table "participants", force: :cascade do |t|
+    t.integer "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "person_token", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["challenge_id", "person_token"], name: "index_participants_on_challenge_id_and_person_token", unique: true
+    t.index ["challenge_id"], name: "index_participants_on_challenge_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
@@ -42,4 +54,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_160908) do
 
   add_foreign_key "challenges", "users"
   add_foreign_key "magic_links", "users"
+  add_foreign_key "participants", "challenges"
+  add_foreign_key "participants", "users"
 end
