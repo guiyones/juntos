@@ -7,4 +7,12 @@ class Participant < ApplicationRecord
   validates :person_token, presence: true, uniqueness: { scope: :challenge_id }
 
   scope :ordered, -> { order(:created_at) }
+
+  def checked_in_on?(date)
+    checkin_for(date).present?
+  end
+
+  def checkin_for(date)
+    checkins.detect { |checkin| checkin.date == date }
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_18_161524) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_18_162354) do
   create_table "challenges", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "days", null: false
@@ -21,6 +21,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_161524) do
     t.integer "user_id", null: false
     t.index ["token"], name: "index_challenges_on_token", unique: true
     t.index ["user_id"], name: "index_challenges_on_user_id"
+  end
+
+  create_table "checkins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.integer "participant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id", "date"], name: "index_checkins_on_participant_id_and_date", unique: true
+    t.index ["participant_id"], name: "index_checkins_on_participant_id"
   end
 
   create_table "magic_links", force: :cascade do |t|
@@ -53,6 +62,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_18_161524) do
   end
 
   add_foreign_key "challenges", "users"
+  add_foreign_key "checkins", "participants"
   add_foreign_key "magic_links", "users"
   add_foreign_key "participants", "challenges"
   add_foreign_key "participants", "users"
