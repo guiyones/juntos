@@ -1,0 +1,13 @@
+sleep:
+  user: gui
+  name: Dormir cedo
+  starts_on: <%= 7.days.ago.to_date %>
+  days: 21
+  token: sleep123
+
+novena:
+  user: ana
+  name: Novena da madrugada
+  starts_on: <%= 3.days.from_now.to_date %>
+  days: 40
+  token: novena12
