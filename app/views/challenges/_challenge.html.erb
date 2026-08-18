@@ -4,14 +4,14 @@
     <strong><%= challenge.name %></strong>
     <span>
       <% if challenge.upcoming? %>
-        começa <%= challenge.starts_on.strftime("%d/%m") %>
+        <%= challenge.days %> dias · começa <%= challenge.starts_on.strftime("%d/%m") %>
       <% elsif challenge.finished? %>
         encerrado · <%= challenge.days %> dias
       <% else %>
         dia <%= challenge.current_day %> de <%= challenge.days %>
       <% end %>
     </span>
-    <% if challenge.running? %>
+    <% unless challenge.finished? %>
       <span class="bar"><i style="width: <%= (challenge.current_day * 100.0 / challenge.days).round %>%"></i></span>
     <% end %>
   <% end %>

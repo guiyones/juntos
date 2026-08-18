@@ -47,9 +47,19 @@ h2 {
 
 a { color: var(--olive-deep); }
 
-.topbar { margin-bottom: 1.25rem; }
-.topbar nav { float: right; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.topbar h1 { margin: 0; }
 .topbar > a { text-decoration: none; font-size: 0.9rem; color: var(--muted); }
+
+@media (min-width: 640px) {
+  body { padding-top: 3rem; }
+}
 
 .flash {
   padding: 0.7rem 1rem;
@@ -85,7 +95,7 @@ a { color: var(--olive-deep); }
   transition: transform 0.1s ease;
 }
 .button:active, input[type="submit"]:active { transform: scale(0.98); }
-.button--secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.button--secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); margin-top: 1.25rem; }
 .button--done { background: var(--olive-soft); color: var(--olive-deep); }
 
 button.link, .link button, form .link {
