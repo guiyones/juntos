@@ -2,17 +2,29 @@
 
 <header class="topbar">
   <%= link_to "‹ salas", root_path %>
-  <h1><%= @challenge.name %></h1>
-  <p class="muted">
-    <% if @challenge.upcoming? %>
-      <%= @challenge.days %> dias, a partir de <%= @challenge.starts_on.strftime("%d/%m") %>
-    <% elsif @challenge.finished? %>
-      encerrado — <%= @challenge.days %> dias
-    <% else %>
-      dia <%= @challenge.current_day %> de <%= @challenge.days %>
-    <% end %>
-  </p>
 </header>
+
+<div class="room-header">
+  <% percent = (@challenge.current_day * 100.0 / @challenge.days).round %>
+  <div class="ring" style="background: conic-gradient(var(--olive) 0% <%= percent %>%, var(--track) <%= percent %>% 100%);">
+    <div class="ring__center">
+      <span class="ring__day"><%= @challenge.current_day %></span>
+      <span class="ring__total">de <%= @challenge.days %></span>
+    </div>
+  </div>
+  <div>
+    <h1><%= @challenge.name %></h1>
+    <p class="muted">
+      <% if @challenge.upcoming? %>
+        <%= @challenge.days %> dias, a partir de <%= @challenge.starts_on.strftime("%d/%m") %>
+      <% elsif @challenge.finished? %>
+        encerrado — <%= @challenge.days %> dias
+      <% else %>
+        dia <%= @challenge.current_day %> de <%= @challenge.days %>
+      <% end %>
+    </p>
+  </div>
+</div>
 
 <%= render "room", challenge: @challenge %>
 

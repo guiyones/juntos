@@ -11,5 +11,8 @@
         dia <%= challenge.current_day %> de <%= challenge.days %>
       <% end %>
     </span>
+    <% if challenge.running? %>
+      <span class="bar"><i style="width: <%= (challenge.current_day * 100.0 / challenge.days).round %>%"></i></span>
+    <% end %>
   <% end %>
 </li>

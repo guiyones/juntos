@@ -7,7 +7,7 @@
     <p>Já estão dentro:</p>
     <ul class="today">
       <% participants.each do |participant| %>
-        <li><span class="dot"></span> <%= participant.name %></li>
+        <li><span class="avatar"><%= participant.name.first.upcase %></span> <%= participant.name %></li>
       <% end %>
     </ul>
   <% end %>

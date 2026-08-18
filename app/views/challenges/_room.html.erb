@@ -3,10 +3,10 @@
   <% participants = challenge.participants.ordered.includes(:checkins) %>
 
   <% if challenge.upcoming? %>
-    <p class="upcoming">Começa em <%= challenge.starts_on.strftime("%d/%m") %>. Já tem <%= participants.size %> <%= "pessoa".pluralize(participants.size) %> dentro.</p>
+    <p class="upcoming">Começa em <%= challenge.starts_on.strftime("%d/%m") %>. Já tem <%= participants.length %> <%= "pessoa".pluralize(participants.length) %> dentro.</p>
     <ul class="today">
       <% participants.each do |participant| %>
-        <li><span class="dot"></span> <%= participant.name %></li>
+        <li><span class="avatar"><%= participant.name.first.upcase %></span> <%= participant.name %></li>
       <% end %>
     </ul>
   <% else %>
@@ -15,7 +15,8 @@
       <ul class="today">
         <% participants.each do |participant| %>
           <li class="<%= "is-done" if participant.checked_in_on?(challenge.today) %>">
-            <span class="dot"></span> <%= participant.name %>
+            <span class="avatar"><%= participant.name.first.upcase %></span>
+            <%= participant.name %>
             <span class="mark"><%= participant.checked_in_on?(challenge.today) ? "✓" : "—" %></span>
           </li>
         <% end %>
@@ -23,6 +24,7 @@
     </section>
 
     <section class="grid-wrap">
+      <h2>A caminhada</h2>
       <table class="grid">
         <thead>
           <tr>
@@ -43,6 +45,7 @@
           <% end %>
         </tbody>
       </table>
+      <p class="philosophy">Um dia sem não apaga a caminhada.</p>
     </section>
   <% end %>
 </div>
